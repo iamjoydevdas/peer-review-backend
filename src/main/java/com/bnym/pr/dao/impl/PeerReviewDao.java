@@ -1,5 +1,10 @@
 package com.bnym.pr.dao.impl;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +41,22 @@ public class PeerReviewDao implements IPeerReviewDao{
 
 	@Override
 	public boolean login(LoginDto login) {
-
+		Connection conn = null;
+		int count = 0;
+		try {
+			conn = dataSource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(query.IS_USER_VALID);
+			ps.setInt(1, login.getUserName());
+			ps.setString(2, login.getPassword());
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				count = rs.getInt("ROWCOUNT");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		/*
 		 * int count = jdbc.queryForObject(query.IS_USER_VALID, new Object[] {
 		 * login.getUserName(), login.getPassword() }, (rs, rownum) ->
@@ -44,7 +64,8 @@ public class PeerReviewDao implements IPeerReviewDao{
 		 * 
 		 * return count > 0 ? true : false;
 		 */
-		return true;
+		 
+		return count > 0 ? true : false;
 	}
 
 }
