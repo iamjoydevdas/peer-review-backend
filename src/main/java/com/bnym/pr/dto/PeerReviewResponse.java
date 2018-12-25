@@ -8,7 +8,14 @@ public class PeerReviewResponse {
 	private Object data;
 	private String message;
 	private String token;
+	private ErrorTo error;
 	
+	public ErrorTo getError() {
+		return error;
+	}
+	public void setError(ErrorTo error) {
+		this.error = error;
+	}
 	public String getToken() {
 		return token;
 	}

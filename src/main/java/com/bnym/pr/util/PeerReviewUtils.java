@@ -6,7 +6,7 @@ public class PeerReviewUtils {
 
 
 	public static String getRandomToken() {
-		return RandomStringUtils.randomAlphabetic(30); 
+		return RandomStringUtils.randomAlphabetic(50); 
 	}
 
 }

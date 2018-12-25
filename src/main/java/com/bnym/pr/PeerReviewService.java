@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bnym.pr.bo.IPeerReviewBo;
+import com.bnym.pr.dto.ErrorTo;
 import com.bnym.pr.dto.LoginDto;
 import com.bnym.pr.dto.PeerReviewResponse;
 
@@ -25,14 +26,20 @@ public class PeerReviewService {
 	@GET
 	@Path("/ping")
 	public Response ping() {
-		return Response.status(200).entity("Peer Review Is Up,, Guys!!!!!").build();
+		PeerReviewResponse response = new PeerReviewResponse();
+		response.setMessage("Peer Review Is Up,, Guys!!!!!");
+		return Response.status(200).entity(response)
+				.header("Access-Control-Allow-Origin", "http://localhost:4200")
+				.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS")
+				.header("Access-Control-Allow-Headers", "Content-Type, Accept").build();
 	}
 	
 	@POST
 	@Path("/login")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PeerReviewResponse login(LoginDto loginDto) {
+	public Response login(LoginDto loginDto) {
+		int responseCode = 200;
 		PeerReviewResponse response = new PeerReviewResponse();
 		System.out.println(loginDto.getUserName()+ "  "+loginDto.getPassword());
 		boolean flag = service.login(loginDto);
@@ -42,8 +49,19 @@ public class PeerReviewService {
 			response.setMessage("Login successful");
 		} else {
 			response.setMessage("Login denied");
+			ErrorTo error = new ErrorTo();
+			error.setErrorCode(401);
+			error.setErrorMessage("Login denied");		
+			response.setError(error);
+			responseCode = 401;
 		}
-		return response;
+		return Response.status(responseCode).entity(response)
+				.header("Access-Control-Allow-Origin", "http://localhost:4200")
+				.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS")
+				.header("Access-Control-Allow-Headers", "Content-Type, Accept")
+				.build();
+		
+		//Response.status(201).entity(result).build();
 	}
 
 }

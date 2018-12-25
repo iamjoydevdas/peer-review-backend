@@ -51,20 +51,13 @@ public class PeerReviewDao implements IPeerReviewDao{
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()) {
 				count = rs.getInt("ROWCOUNT");
+				System.out.println("Database thekei");
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		/*
-		 * int count = jdbc.queryForObject(query.IS_USER_VALID, new Object[] {
-		 * login.getUserName(), login.getPassword() }, (rs, rownum) ->
-		 * rs.getInt("ROWCOUNT") );
-		 * 
-		 * return count > 0 ? true : false;
-		 */
-		 
 		return count > 0 ? true : false;
 	}
 
