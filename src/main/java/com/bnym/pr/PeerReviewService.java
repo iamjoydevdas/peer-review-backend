@@ -8,6 +8,7 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -20,6 +21,7 @@ import com.bnym.pr.dto.ErrorTo;
 import com.bnym.pr.dto.LoginDto;
 import com.bnym.pr.dto.PeerReviewResponse;
 import com.bnym.pr.dto.UserDto;
+import com.bnym.pr.handler.PeerReviewException;
 
 @Component
 @Path("/pr")
@@ -64,13 +66,16 @@ public class PeerReviewService {
 	
 	@GET
 	@Path("/details")
-	public Response getUserDetails(@HeaderParam("token") String token) {
+	public Response getUserDetails(@HeaderParam("token") String token) throws PeerReviewException {
 		int responseCode = 200;
 		PeerReviewResponse response = new PeerReviewResponse();
 		Integer loggedInUser = service.getSessionUserId(token);
+		if(loggedInUser == null) {
+			throw new PeerReviewException(501, "Unauthorized");
+		}
 		System.out.println("Logged In user id "+ loggedInUser);
 		UserDto userDto = service.details(loggedInUser);
-		if(loggedInUser == null || userDto == null) {
+		if(userDto == null) {
 			response.setSuccess(false);
 			responseCode = HttpServletResponse.SC_NOT_FOUND;
 			response.setMessage("User Details Not Found.");
@@ -90,8 +95,9 @@ public class PeerReviewService {
 	@Path("/peer/create")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response peerCreate(UserDto userDto) {
+	public Response peerCreate(@HeaderParam("token") String token, UserDto userDto) throws PeerReviewException {
 		System.out.println(userDto.toString());
+		service.getSessionUserId(token);
 		int cnt = service.create(userDto);
 		int responseCode = 201;
 		PeerReviewResponse response = new PeerReviewResponse();
@@ -115,7 +121,9 @@ public class PeerReviewService {
 	@Path("/peer/{peerId}/update")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response peerUpdate() {
+	public Response peerUpdate(@HeaderParam("token") String token, @PathParam("peerId") String peerId) throws PeerReviewException {
+		System.out.println(peerId);
+		service.getSessionUserId(token);
 		return Response.status(201).entity("create")
 				.build();
 	}

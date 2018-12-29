@@ -2,10 +2,12 @@ package com.bnym.pr.handler;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
 
 import com.bnym.pr.dto.ErrorTo;
 import com.bnym.pr.dto.PeerReviewResponse;
 
+@Provider
 public class ExceptionHandler extends Exception implements ExceptionMapper<PeerReviewException>{
 
 	/**
@@ -21,7 +23,7 @@ public class ExceptionHandler extends Exception implements ExceptionMapper<PeerR
 		errorTo.setErrorMessage(exception.getErrorMessage());
 		response.setError(errorTo);
 		response.setSuccess(false);
-		return Response.status(500).entity(response).build();
+		return Response.status(exception.getErrorCode()).entity(response).build();
 	}
 
 }
