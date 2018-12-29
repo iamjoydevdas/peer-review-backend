@@ -1,12 +1,16 @@
 package com.bnym.pr.bo.impl;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bnym.pr.bo.IPeerReviewBo;
 import com.bnym.pr.dao.IPeerReviewDao;
+import com.bnym.pr.dto.ErrorTo;
 import com.bnym.pr.dto.LoginDto;
 import com.bnym.pr.dto.UserDto;
 import com.bnym.pr.handler.PeerReviewBusinessException;
+import com.bnym.pr.handler.PeerReviewDatabaseException;
 import com.bnym.pr.handler.PeerReviewException;
 import com.bnym.pr.util.PeerReviewUtils;
 
@@ -65,17 +69,17 @@ public class PeerReviewBo implements IPeerReviewBo {
 	}
 
 	@Override
-	public Integer create(UserDto user) {
+	public Integer create(UserDto user) throws PeerReviewDatabaseException, PeerReviewException {
 		return dao.create(user);
 	}
 
 	@Override
-	public Integer update(UserDto user, Integer userId) {
+	public Integer update(UserDto user, Integer userId) throws PeerReviewDatabaseException, PeerReviewException {
 		return dao.update(user, userId);
 	}
 
 	@Override
-	public Integer delete(Integer userId) {
+	public Integer delete(Integer userId) throws PeerReviewDatabaseException, PeerReviewException {
 		return dao.delete(userId);
 	}
 }

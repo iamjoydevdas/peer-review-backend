@@ -21,6 +21,7 @@ import com.bnym.pr.dto.ErrorTo;
 import com.bnym.pr.dto.LoginDto;
 import com.bnym.pr.dto.PeerReviewResponse;
 import com.bnym.pr.dto.UserDto;
+import com.bnym.pr.handler.PeerReviewDatabaseException;
 import com.bnym.pr.handler.PeerReviewException;
 
 @Component
@@ -95,50 +96,29 @@ public class PeerReviewService {
 	@Path("/peer/create")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response peerCreate(@HeaderParam("token") String token, UserDto userDto) throws PeerReviewException {
+	public Response peerCreate(@HeaderParam("token") String token, UserDto userDto) throws PeerReviewException, PeerReviewDatabaseException {
 		System.out.println(userDto.toString());
 		service.getSessionUserId(token);
-		int cnt = service.create(userDto);
+		service.create(userDto);
 		int responseCode = 201;
 		PeerReviewResponse response = new PeerReviewResponse();
-		if(cnt <= 0) {
-			response.setSuccess(false);
-			responseCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-			response.setMessage("Something Went Wrong");
-			ErrorTo error = new ErrorTo();
-			error.setErrorCode(responseCode);
-			error.setErrorMessage("Something Went Wrong");
-			response.setError(error);
-		}else {
-			response.setSuccess(true);
-			response.setMessage("Peer Created Successfully.");
-		}
-		return Response.status(responseCode).entity(response)
-				.build();
+		response.setSuccess(true);
+		response.setMessage("Peer Created Successfully.");
+		return Response.status(responseCode).entity(response).build();
 	}
 	
 	@PUT
 	@Path("/peer/{peerId}/update")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response peerUpdate(@HeaderParam("token") String token, @PathParam("peerId") Integer peerId, UserDto userDto) throws PeerReviewException {
+	public Response peerUpdate(@HeaderParam("token") String token, @PathParam("peerId") Integer peerId, UserDto userDto) throws PeerReviewException, PeerReviewDatabaseException {
 		System.out.println(peerId);
 		service.getSessionUserId(token);
-		int cnt = service.update(userDto, peerId);
+		service.update(userDto, peerId);
 		int responseCode = 200;
 		PeerReviewResponse response = new PeerReviewResponse();
-		if(cnt <= 0) {
-			response.setSuccess(false);
-			responseCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-			response.setMessage("Something Went Wrong");
-			ErrorTo error = new ErrorTo();
-			error.setErrorCode(responseCode);
-			error.setErrorMessage("Something Went Wrong");
-			response.setError(error);
-		}else {
-			response.setSuccess(true);
-			response.setMessage("Peer Updated Successfully.");
-		}
+		response.setSuccess(true);
+		response.setMessage("Peer Updated Successfully.");
 		return Response.status(responseCode).entity(response)
 				.build();
 	}
@@ -147,24 +127,14 @@ public class PeerReviewService {
 	@Path("/peer/{peerId}/delete")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response peerDelete(@HeaderParam("token") String token, @PathParam("peerId") Integer peerId) throws PeerReviewException {
+	public Response peerDelete(@HeaderParam("token") String token, @PathParam("peerId") Integer peerId) throws PeerReviewException, PeerReviewDatabaseException {
 		System.out.println(peerId);
 		service.getSessionUserId(token);
-		int cnt = service.delete(peerId);
+		service.delete(peerId);
 		int responseCode = 200;
 		PeerReviewResponse response = new PeerReviewResponse();
-		if(cnt <= 0) {
-			response.setSuccess(false);
-			responseCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-			response.setMessage("Something Went Wrong");
-			ErrorTo error = new ErrorTo();
-			error.setErrorCode(responseCode);
-			error.setErrorMessage("Something Went Wrong");
-			response.setError(error);
-		}else {
-			response.setSuccess(true);
-			response.setMessage("Peer Deleted Successfully.");
-		}
+		response.setSuccess(true);
+		response.setMessage("Peer Deleted Successfully.");
 		return Response.status(responseCode).entity(response)
 				.build();
 	}

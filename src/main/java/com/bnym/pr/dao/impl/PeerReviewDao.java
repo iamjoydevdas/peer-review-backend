@@ -15,6 +15,9 @@ import com.bnym.pr.dto.Designation;
 import com.bnym.pr.dto.LoginDto;
 import com.bnym.pr.dto.Role;
 import com.bnym.pr.dto.UserDto;
+import com.bnym.pr.handler.PeerReviewBusinessException;
+import com.bnym.pr.handler.PeerReviewDatabaseException;
+import com.bnym.pr.handler.PeerReviewException;
 
 public class PeerReviewDao implements IPeerReviewDao{
 
@@ -107,7 +110,7 @@ public class PeerReviewDao implements IPeerReviewDao{
 	}
 
 	@Override
-	public Integer create(UserDto userDto) {
+	public Integer create(UserDto userDto) throws PeerReviewDatabaseException, PeerReviewException {
 		Connection conn = null;
 		int count = 0;
 		try {
@@ -122,6 +125,10 @@ public class PeerReviewDao implements IPeerReviewDao{
 			ps.setString(7, userDto.getUpdatedBy());
 			ps.setInt(8, userDto.getUserId());
 			count = ps.executeUpdate();
+			if(count <= 0) {
+				throw new PeerReviewDatabaseException(500, "Something went wrong. Peer didn't created.") ;
+			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -135,7 +142,7 @@ public class PeerReviewDao implements IPeerReviewDao{
 	}
 
 	@Override
-	public Integer update(UserDto user, Integer userId) {
+	public Integer update(UserDto user, Integer userId) throws PeerReviewDatabaseException, PeerReviewException {
 		Connection conn = null;
 		int count = 0;
 		try {
@@ -148,6 +155,9 @@ public class PeerReviewDao implements IPeerReviewDao{
 			ps.setString(5, user.getUpdatedBy());
 			ps.setInt(6, userId);
 			count = ps.executeUpdate();
+			if(count <= 0) {
+				throw new PeerReviewDatabaseException(500, "Something went wrong. Peer didn't updated.") ;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -161,7 +171,7 @@ public class PeerReviewDao implements IPeerReviewDao{
 	}
 
 	@Override
-	public Integer delete(Integer userId) {
+	public Integer delete(Integer userId) throws PeerReviewDatabaseException, PeerReviewException {
 		Connection conn = null;
 		int count = 0;
 		try {
@@ -169,6 +179,9 @@ public class PeerReviewDao implements IPeerReviewDao{
 			PreparedStatement ps = conn.prepareStatement(query.DELETE_A_PEER);
 			ps.setInt(1, userId);
 			count = ps.executeUpdate();
+			if(count <= 0) {
+				throw new PeerReviewDatabaseException(500, "Something went wrong. Peer didn't deleted.") ;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
