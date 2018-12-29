@@ -23,6 +23,9 @@ public class PeerReviewDao implements IPeerReviewDao{
 		String GET_USER_DETAILS = "SELECT PEER_FNAME, PEER_LNAME, PEER_FULL_NAME, PEER_CTS_ID, PEER_DESIG_ID, PEER_ROLE_ID FROM PEERS WHERE PEER_CTS_ID = ?";
 		String CREATE_NEW_PEER = "INSERT INTO PEERS (PEER_FNAME, PEER_LNAME, PEER_FULL_NAME, PEER_DESIG_ID, PEER_ROLE_ID, PEER_CREATED_BY, PEER_CREATION_TS, PEER_LAST_UPDATED_BY, PEER_LAST_UPDATED_TS, PEER_CTS_ID, PEER_PSWD) VALUES "
 				+ " (?, ?, ?, ?, ?, ?, sysdate(), ?, sysdate(), ?, 'Password1$')";
+		String UPDATE_A_PEER = "UPDATE PEERS SET PEER_FNAME=?, PEER_LNAME=?, PEER_DESIG_ID=?, PEER_ROLE_ID=?, PEER_LAST_UPDATED_TS=sysdate(), PEER_LAST_UPDATED_BY=? " + 
+				" WHERE PEER_CTS_ID = ?";
+		String DELETE_A_PEER = "DELETE FROM PEERS WHERE PEER_CTS_ID = ?";
 	} 
 
 	PeerReviewDao.Query query = new PeerReviewDao.Query();
@@ -118,6 +121,53 @@ public class PeerReviewDao implements IPeerReviewDao{
 			ps.setString(6, userDto.getCreatedBy());
 			ps.setString(7, userDto.getUpdatedBy());
 			ps.setInt(8, userDto.getUserId());
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return count;
+	}
+
+	@Override
+	public Integer update(UserDto user, Integer userId) {
+		Connection conn = null;
+		int count = 0;
+		try {
+			conn = dataSource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(query.UPDATE_A_PEER);
+			ps.setString(1, user.getFirstName());
+			ps.setString(2, user.getLastName());
+			ps.setInt(3, (user.getDesignation().getDesignationValue())); 
+			ps.setInt(4, (user.getRole()).getRoleValue()); 
+			ps.setString(5, user.getUpdatedBy());
+			ps.setInt(6, userId);
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return count;
+	}
+
+	@Override
+	public Integer delete(Integer userId) {
+		Connection conn = null;
+		int count = 0;
+		try {
+			conn = dataSource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(query.DELETE_A_PEER);
+			ps.setInt(1, userId);
 			count = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

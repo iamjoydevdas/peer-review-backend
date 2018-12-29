@@ -121,10 +121,25 @@ public class PeerReviewService {
 	@Path("/peer/{peerId}/update")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response peerUpdate(@HeaderParam("token") String token, @PathParam("peerId") String peerId) throws PeerReviewException {
+	public Response peerUpdate(@HeaderParam("token") String token, @PathParam("peerId") Integer peerId, UserDto userDto) throws PeerReviewException {
 		System.out.println(peerId);
 		service.getSessionUserId(token);
-		return Response.status(201).entity("create")
+		int cnt = service.update(userDto, peerId);
+		int responseCode = 200;
+		PeerReviewResponse response = new PeerReviewResponse();
+		if(cnt <= 0) {
+			response.setSuccess(false);
+			responseCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+			response.setMessage("Something Went Wrong");
+			ErrorTo error = new ErrorTo();
+			error.setErrorCode(responseCode);
+			error.setErrorMessage("Something Went Wrong");
+			response.setError(error);
+		}else {
+			response.setSuccess(true);
+			response.setMessage("Peer Updated Successfully.");
+		}
+		return Response.status(responseCode).entity(response)
 				.build();
 	}
 	
@@ -132,8 +147,25 @@ public class PeerReviewService {
 	@Path("/peer/{peerId}/delete")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response peerDelete() {
-		return Response.status(201).entity("create")
+	public Response peerDelete(@HeaderParam("token") String token, @PathParam("peerId") Integer peerId) throws PeerReviewException {
+		System.out.println(peerId);
+		service.getSessionUserId(token);
+		int cnt = service.delete(peerId);
+		int responseCode = 200;
+		PeerReviewResponse response = new PeerReviewResponse();
+		if(cnt <= 0) {
+			response.setSuccess(false);
+			responseCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+			response.setMessage("Something Went Wrong");
+			ErrorTo error = new ErrorTo();
+			error.setErrorCode(responseCode);
+			error.setErrorMessage("Something Went Wrong");
+			response.setError(error);
+		}else {
+			response.setSuccess(true);
+			response.setMessage("Peer Deleted Successfully.");
+		}
+		return Response.status(responseCode).entity(response)
 				.build();
 	}
 }

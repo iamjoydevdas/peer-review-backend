@@ -10,4 +10,6 @@ public interface IPeerReviewBo{
 	public Integer getSessionUserId(String token) throws PeerReviewException;
 	public UserDto details(Integer loggedInUserId);
 	public Integer create(UserDto user);
+	public Integer update(UserDto user, Integer userId);
+	public Integer delete(Integer userId);
 }

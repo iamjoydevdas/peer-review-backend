@@ -1,0 +1,252 @@
+{
+	"info": {
+		"_postman_id": "f7a637d4-74d1-470c-a396-1fd3a638334d",
+		"name": "PeerReview",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Peer Management",
+			"item": [
+				{
+					"name": "Peer Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"userName\": 123456,\r\n\t\"password\":\"Password1$\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/PeerReview/rest/pr/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"PeerReview",
+								"rest",
+								"pr",
+								"login"
+							]
+						},
+						"description": "Login"
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch Logged In Peer details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "fLJXRbcBULYbUXaaCaIboKpCMBXyYJlswjiyEWwtcwhZFmqdkx",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/PeerReview/rest/pr/details",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"PeerReview",
+								"rest",
+								"pr",
+								"details"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0ff24b3e-8686-4bbc-a0e0-0c06f0721425",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "ff7c02dd-30ed-4760-9771-9aa9e936bd26",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Admin Activity",
+			"item": [
+				{
+					"name": "Delete A Peer",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "FJupCZsfAgiORRVYTrMZYJumbuwztXGKlxaShTUGmIDTsUdJlz",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/PeerReview/rest/pr/peer/347645/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"PeerReview",
+								"rest",
+								"pr",
+								"peer",
+								"347645",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create A New Peer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Joydev\",\n    \"lastName\": \"Das\",\n    \"userId\": 347644,\n    \"designation\": 3,\n    \"role\": 3,\n    \"createdBy\": \"system\",\n    \"updatedBy\": \"system\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/PeerReview/rest/pr/peer/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"PeerReview",
+								"rest",
+								"pr",
+								"peer",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Peer Details",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "ToJwpRNOyFHGuYgYIcrfMoQrrCdSToNQSYVUoIHYEPuCrsCrVx",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Joydev1\",\n    \"lastName\": \"Das\",\n    \"designation\": 6,\n    \"role\": 3,\n    \"updatedBy\": \"Joydev\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/PeerReview/rest/pr/peer/347645/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"PeerReview",
+								"rest",
+								"pr",
+								"peer",
+								"347645",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ping",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/PeerReview/rest/pr/ping",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"PeerReview",
+						"rest",
+						"pr",
+						"ping"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

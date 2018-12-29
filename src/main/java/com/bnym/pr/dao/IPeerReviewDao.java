@@ -8,4 +8,6 @@ public interface IPeerReviewDao {
 	public boolean login(LoginDto login);
 	public UserDto details(Integer loggedInUserId);
 	public Integer create(UserDto userDto);
+	public Integer update(UserDto user, Integer userId);
+	public Integer delete(Integer userId);
 }

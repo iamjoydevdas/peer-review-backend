@@ -68,4 +68,14 @@ public class PeerReviewBo implements IPeerReviewBo {
 	public Integer create(UserDto user) {
 		return dao.create(user);
 	}
+
+	@Override
+	public Integer update(UserDto user, Integer userId) {
+		return dao.update(user, userId);
+	}
+
+	@Override
+	public Integer delete(Integer userId) {
+		return dao.delete(userId);
+	}
 }
