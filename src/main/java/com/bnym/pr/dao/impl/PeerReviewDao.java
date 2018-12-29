@@ -83,14 +83,12 @@ public class PeerReviewDao implements IPeerReviewDao{
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				userDto = new UserDto();
-				//userDto.setUserId(rs.getInt("PEER_CTS_ID"));
+				userDto.setUserId(rs.getInt("PEER_CTS_ID"));
 				userDto.setFirstName(rs.getString("PEER_FNAME"));
-				/*
-				 * userDto.setLastName(rs.getString("PEER_LNAME"));
-				 * userDto.setFullName(rs.getString("PEER_FULL_NAME"));
-				 * userDto.setDesignation(rs.getInt("PEER_DESIG_ID"));
-				 * userDto.setRole(rs.getInt("PEER_ROLE_ID"));
-				 */
+				userDto.setLastName(rs.getString("PEER_LNAME"));
+				userDto.setFullName(rs.getString("PEER_FULL_NAME"));
+				userDto.setDesignation(rs.getInt("PEER_DESIG_ID"));
+				userDto.setRole(rs.getInt("PEER_ROLE_ID"));
 				System.out.println(userDto.toString());
 			}
 		} catch (SQLException e) {
@@ -111,15 +109,15 @@ public class PeerReviewDao implements IPeerReviewDao{
 		int count = 0;
 		try {
 			conn = dataSource.getConnection();
-			PreparedStatement ps = conn.prepareStatement(query.GET_USER_DETAILS);
+			PreparedStatement ps = conn.prepareStatement(query.CREATE_NEW_PEER);
 			ps.setString(1, userDto.getFirstName());
-			/*
-			 * ps.setString(2, userDto.getLastName()); ps.setString(3,
-			 * userDto.getFirstName() + " " + userDto.getLastName()); ps.setInt(4,
-			 * (userDto.getDesignation().getDesignationValue())); ps.setInt(5,
-			 * (userDto.getRole()).getRoleValue()); ps.setString(6, userDto.getCreatedBy());
-			 * ps.setString(7, userDto.getUpdatedBy()); ps.setInt(8, userDto.getUserId());
-			 */
+			ps.setString(2, userDto.getLastName()); 
+			ps.setString(3, userDto.getFirstName() + " " + userDto.getLastName()); 
+			ps.setInt(4, (userDto.getDesignation().getDesignationValue())); 
+			ps.setInt(5, (userDto.getRole()).getRoleValue()); 
+			ps.setString(6, userDto.getCreatedBy());
+			ps.setString(7, userDto.getUpdatedBy());
+			ps.setInt(8, userDto.getUserId());
 			count = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

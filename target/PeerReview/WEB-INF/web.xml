@@ -18,7 +18,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>PeerFilter</filter-name>
-		<url-pattern>/PeerFilter</url-pattern>
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
 	<listener>

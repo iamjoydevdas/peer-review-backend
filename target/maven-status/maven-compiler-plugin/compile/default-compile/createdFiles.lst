@@ -12,3 +12,4 @@ com\bnym\pr\bo\handler\PeerReviewException.class
 com\bnym\pr\dao\impl\PeerReviewDao$Query.class
 com\bnym\pr\filter\PeerFilter.class
 com\bnym\pr\bo\IPeerReviewBo.class
+com\bnym\pr\handler\PeerReviewDatabaseException.class
