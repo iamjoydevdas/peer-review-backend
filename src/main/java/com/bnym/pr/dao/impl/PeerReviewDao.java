@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -14,6 +16,7 @@ import com.bnym.pr.dao.IPeerReviewDao;
 import com.bnym.pr.dto.Designation;
 import com.bnym.pr.dto.LoginDto;
 import com.bnym.pr.dto.Role;
+import com.bnym.pr.dto.Statics;
 import com.bnym.pr.dto.UserDto;
 import com.bnym.pr.handler.PeerReviewBusinessException;
 import com.bnym.pr.handler.PeerReviewDatabaseException;
@@ -29,6 +32,8 @@ public class PeerReviewDao implements IPeerReviewDao{
 		String UPDATE_A_PEER = "UPDATE PEERS SET PEER_FNAME=?, PEER_LNAME=?, PEER_DESIG_ID=?, PEER_ROLE_ID=?, PEER_LAST_UPDATED_TS=sysdate(), PEER_LAST_UPDATED_BY=? " + 
 				" WHERE PEER_CTS_ID = ?";
 		String DELETE_A_PEER = "DELETE FROM PEERS WHERE PEER_CTS_ID = ?";
+		String FETCH_ALL_STATICS = "SELECT  'ROLE' AS TYPE, ROLE_ID AS 'ID', ROLE_NAME AS 'DESC' FROM ROLE " + 
+				"UNION SELECT 'DESIGNATION' AS 'TYPE', DESIGNATION_ID AS 'ID', DESIGNATION_NAME AS 'DESC' FROM designation";
 	} 
 
 	PeerReviewDao.Query query = new PeerReviewDao.Query();
@@ -192,6 +197,33 @@ public class PeerReviewDao implements IPeerReviewDao{
 			}
 		}
 		return count;
+	}
+
+	@Override
+	public List<Statics> statics() {
+		Connection conn = null;
+		List<Statics> statics = new ArrayList<>();
+		try {
+			conn = dataSource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(query.FETCH_ALL_STATICS);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				Statics s = new Statics();
+				s.setStaticType(rs.getString("TYPE"));
+				s.setStaticId(rs.getInt("ID"));
+				s.setStaticDesc(rs.getString("DESC"));
+				statics.add(s);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return statics;
 	}
 
 }

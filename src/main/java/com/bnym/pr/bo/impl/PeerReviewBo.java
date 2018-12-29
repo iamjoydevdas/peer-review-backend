@@ -1,5 +1,7 @@
 package com.bnym.pr.bo.impl;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import com.bnym.pr.bo.IPeerReviewBo;
 import com.bnym.pr.dao.IPeerReviewDao;
 import com.bnym.pr.dto.ErrorTo;
 import com.bnym.pr.dto.LoginDto;
+import com.bnym.pr.dto.Statics;
 import com.bnym.pr.dto.UserDto;
 import com.bnym.pr.handler.PeerReviewBusinessException;
 import com.bnym.pr.handler.PeerReviewDatabaseException;
@@ -52,7 +55,6 @@ public class PeerReviewBo implements IPeerReviewBo {
 	@Override
 	public Integer getSessionUserId(String token) throws PeerReviewException {
 		Cache cache = cm.getCache("tokenStore");
-		//LoginDto session  = (LoginDto) cache.get(token).getObjectValue();
 		Integer userId = null;
 		Element e = cache.get(token);
 		if(e != null) {
@@ -81,5 +83,14 @@ public class PeerReviewBo implements IPeerReviewBo {
 	@Override
 	public Integer delete(Integer userId) throws PeerReviewDatabaseException, PeerReviewException {
 		return dao.delete(userId);
+	}
+
+	@Override
+	public List<Statics> statics() throws PeerReviewBusinessException, PeerReviewException {
+		List<Statics> statics = dao.statics();
+		if(statics == null) {
+			throw new PeerReviewBusinessException(500, "Oops!! No Static Data Found.");
+		}
+		return dao.statics();
 	}
 }

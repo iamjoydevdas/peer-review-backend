@@ -21,6 +21,7 @@ import com.bnym.pr.dto.ErrorTo;
 import com.bnym.pr.dto.LoginDto;
 import com.bnym.pr.dto.PeerReviewResponse;
 import com.bnym.pr.dto.UserDto;
+import com.bnym.pr.handler.PeerReviewBusinessException;
 import com.bnym.pr.handler.PeerReviewDatabaseException;
 import com.bnym.pr.handler.PeerReviewException;
 
@@ -137,5 +138,14 @@ public class PeerReviewService {
 		response.setMessage("Peer Deleted Successfully.");
 		return Response.status(responseCode).entity(response)
 				.build();
+	}
+	
+	@GET
+	@Path("/statics")
+	public Response statics() throws PeerReviewBusinessException, PeerReviewException {
+		PeerReviewResponse response = new PeerReviewResponse();
+		response.setSuccess(true);
+		response.setDataList(service.statics());
+		return Response.status(200).entity(response).build();
 	}
 }
