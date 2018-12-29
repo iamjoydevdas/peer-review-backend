@@ -156,11 +156,16 @@
 								"key": "Accept",
 								"value": "application/json",
 								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "fXunbOPlwnSQJHgwtOhgjNnGGKQwcqHLywVkvJbMlLmcQqioDz",
+								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"Joydev\",\n    \"lastName\": \"Das\",\n    \"userId\": 347644,\n    \"designation\": 3,\n    \"role\": 3,\n    \"createdBy\": \"system\",\n    \"updatedBy\": \"system\"\n}"
+							"raw": "{\n    \"firstName\": \"Joydev1\",\n    \"lastName\": \"Das\",\n    \"userId\": 347645,\n    \"designation\": 2,\n    \"role\": 3,\n    \"createdBy\": \"Joydev\",\n    \"updatedBy\": \"Joydev\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/PeerReview/rest/pr/peer/create",
@@ -215,6 +220,37 @@
 								"peer",
 								"347645",
 								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Common",
+			"item": [
+				{
+					"name": "Fetch Static Data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/PeerReview/rest/pr/statics",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"PeerReview",
+								"rest",
+								"pr",
+								"statics"
 							]
 						}
 					},
