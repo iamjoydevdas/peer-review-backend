@@ -9,6 +9,17 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:applicationContext.xml</param-value>
 	</context-param>
+	<filter>
+		<description>
+		</description>
+		<display-name>PeerFilter</display-name>
+		<filter-name>PeerFilter</filter-name>
+		<filter-class>com.bnym.pr.filter.PeerFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>PeerFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

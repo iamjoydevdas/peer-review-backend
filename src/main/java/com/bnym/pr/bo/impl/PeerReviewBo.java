@@ -36,7 +36,15 @@ public class PeerReviewBo implements IPeerReviewBo {
 
 	public String generateAndStoreToken(LoginDto login) {
 		String token = PeerReviewUtils.getRandomToken(); System.out.println(token);
-		Cache cache = cm.getCache("tokenStore"); cache.put(new Element(token, login)); 
+		Cache cache = cm.getCache("tokenStore"); 
+		cache.put(new Element(token, login)); 
 		System.out.println(cache.isElementInMemory(token)); return token;
+	}
+
+	@Override
+	public Integer getSessionUserId(String token) {
+		Cache cache = cm.getCache("tokenStore");
+		LoginDto session  = (LoginDto) cache.get(token).getObjectValue();
+		return session.getUserName();
 	}
 }
