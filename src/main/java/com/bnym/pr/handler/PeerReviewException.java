@@ -1,6 +1,4 @@
-package com.bnym.pr.bo.handler;
-
-import javax.ws.rs.ext.ExceptionMapper;
+package com.bnym.pr.handler;
 
 public class PeerReviewException extends Exception {
 	private static final long serialVersionUID = 4679227572108646584L;

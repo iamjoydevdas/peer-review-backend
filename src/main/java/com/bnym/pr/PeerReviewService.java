@@ -19,6 +19,7 @@ import com.bnym.pr.bo.IPeerReviewBo;
 import com.bnym.pr.dto.ErrorTo;
 import com.bnym.pr.dto.LoginDto;
 import com.bnym.pr.dto.PeerReviewResponse;
+import com.bnym.pr.dto.UserDto;
 
 @Component
 @Path("/pr")
@@ -64,9 +65,24 @@ public class PeerReviewService {
 	@GET
 	@Path("/details")
 	public Response getUserDetails(@HeaderParam("token") String token) {
+		int responseCode = 200;
+		PeerReviewResponse response = new PeerReviewResponse();
 		Integer loggedInUser = service.getSessionUserId(token);
 		System.out.println("Logged In user id "+ loggedInUser);
-		return Response.status(HttpServletResponse.SC_ACCEPTED).entity(loggedInUser)
+		UserDto userDto = service.details(loggedInUser);
+		if(loggedInUser == null || userDto == null) {
+			response.setSuccess(false);
+			responseCode = HttpServletResponse.SC_NOT_FOUND;
+			response.setMessage("User Details Not Found.");
+			ErrorTo error = new ErrorTo();
+			error.setErrorCode(responseCode);
+			error.setErrorMessage("User Details Not Found.");
+			response.setError(error);
+		}else {
+			response.setSuccess(true);
+			response.setData(userDto);
+		}
+		return Response.status(responseCode).entity(response)
 				.build();
 	}
 	
@@ -74,9 +90,24 @@ public class PeerReviewService {
 	@Path("/peer/create")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response peerCreate() {
-		return Response.status(201).entity("create")
-				 .header("Access-Control-Max-Age", "151200")
+	public Response peerCreate(UserDto userDto) {
+		System.out.println(userDto.toString());
+		int cnt = service.create(userDto);
+		int responseCode = 201;
+		PeerReviewResponse response = new PeerReviewResponse();
+		if(cnt <= 0) {
+			response.setSuccess(false);
+			responseCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+			response.setMessage("Something Went Wrong");
+			ErrorTo error = new ErrorTo();
+			error.setErrorCode(responseCode);
+			error.setErrorMessage("Something Went Wrong");
+			response.setError(error);
+		}else {
+			response.setSuccess(true);
+			response.setMessage("Peer Created Successfully.");
+		}
+		return Response.status(responseCode).entity(response)
 				.build();
 	}
 	

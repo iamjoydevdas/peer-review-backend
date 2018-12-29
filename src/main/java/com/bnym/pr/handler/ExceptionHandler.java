@@ -1,4 +1,4 @@
-package com.bnym.pr.bo.handler;
+package com.bnym.pr.handler;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;

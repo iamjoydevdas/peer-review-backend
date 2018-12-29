@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bnym.pr.bo.IPeerReviewBo;
 import com.bnym.pr.dao.IPeerReviewDao;
 import com.bnym.pr.dto.LoginDto;
+import com.bnym.pr.dto.UserDto;
 import com.bnym.pr.util.PeerReviewUtils;
 
 import net.sf.ehcache.Cache;
@@ -46,5 +47,15 @@ public class PeerReviewBo implements IPeerReviewBo {
 		Cache cache = cm.getCache("tokenStore");
 		LoginDto session  = (LoginDto) cache.get(token).getObjectValue();
 		return session.getUserName();
+	}
+
+	@Override
+	public UserDto details(Integer loggedInUserId) {
+		return dao.details(loggedInUserId);
+	}
+
+	@Override
+	public Integer create(UserDto user) {
+		return dao.create(user);
 	}
 }
