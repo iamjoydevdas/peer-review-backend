@@ -10,7 +10,7 @@ import com.bnym.pr.handler.PeerReviewException;
 
 public interface IPeerReviewDao {
 	public String save();
-	public boolean login(LoginDto login);
+	public boolean login(LoginDto login) throws PeerReviewDatabaseException, PeerReviewException;
 	public UserDto details(Integer loggedInUserId);
 	public Integer create(UserDto userDto) throws PeerReviewDatabaseException, PeerReviewException;
 	public Integer update(UserDto user, Integer userId) throws PeerReviewDatabaseException, PeerReviewException;

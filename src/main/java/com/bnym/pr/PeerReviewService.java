@@ -45,7 +45,7 @@ public class PeerReviewService {
 	@Path("/login")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response login(LoginDto loginDto) {
+	public Response login(LoginDto loginDto) throws PeerReviewDatabaseException, PeerReviewException {
 		int responseCode = 200;
 		PeerReviewResponse response = new PeerReviewResponse();
 		System.out.println(loginDto.getUserName()+ "  "+loginDto.getPassword());

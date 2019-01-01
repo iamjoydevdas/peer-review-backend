@@ -2,13 +2,10 @@ package com.bnym.pr.bo.impl;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bnym.pr.bo.IPeerReviewBo;
 import com.bnym.pr.dao.IPeerReviewDao;
-import com.bnym.pr.dto.ErrorTo;
 import com.bnym.pr.dto.LoginDto;
 import com.bnym.pr.dto.Statics;
 import com.bnym.pr.dto.UserDto;
@@ -36,7 +33,7 @@ public class PeerReviewBo implements IPeerReviewBo {
 	}
 
 	@Override
-	public boolean login(LoginDto login) {
+	public boolean login(LoginDto login) throws PeerReviewDatabaseException, PeerReviewException {
 		return dao.login(login);
 	}
 

@@ -9,7 +9,7 @@ import com.bnym.pr.handler.PeerReviewDatabaseException;
 import com.bnym.pr.handler.PeerReviewException;
 
 public interface IPeerReviewBo{
-	public boolean login(LoginDto login);
+	public boolean login(LoginDto login) throws PeerReviewDatabaseException, PeerReviewException;
 	public String generateAndStoreToken(LoginDto login);
 	public Integer getSessionUserId(String token) throws PeerReviewException;
 	public UserDto details(Integer loggedInUserId);

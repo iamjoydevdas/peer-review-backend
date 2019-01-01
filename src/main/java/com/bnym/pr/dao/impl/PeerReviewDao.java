@@ -57,7 +57,7 @@ public class PeerReviewDao implements IPeerReviewDao{
 	}
 
 	@Override
-	public boolean login(LoginDto login) {
+	public boolean login(LoginDto login) throws PeerReviewDatabaseException, PeerReviewException {
 		Connection conn = null;
 		int count = 0;
 		try {
@@ -70,8 +70,8 @@ public class PeerReviewDao implements IPeerReviewDao{
 				count = rs.getInt("ROWCOUNT");
 				System.out.println("Database thekei");
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			throw new PeerReviewDatabaseException(500, e.getMessage());
 		} finally {
 			try {
 				conn.close();
