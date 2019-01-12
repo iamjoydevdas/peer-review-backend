@@ -90,4 +90,10 @@ public class PeerReviewBo implements IPeerReviewBo {
 		}
 		return dao.statics();
 	}
+
+	@Override
+	public List<UserDto> viewAll(Integer loggedInUserId) throws PeerReviewDatabaseException, PeerReviewException {
+		// TODO Auto-generated method stub
+		return dao.viewAll(loggedInUserId);
+	}
 }

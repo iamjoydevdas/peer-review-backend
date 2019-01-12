@@ -1,6 +1,9 @@
 package com.bnym.pr.dto;
 
-public class Statics {
+import java.io.Serializable;
+
+public class Statics implements Serializable{
+	private static final long serialVersionUID = 1686205853614134392L;
 	private String staticType;
 	private Integer staticId;
 	private String staticDesc;

@@ -1,8 +1,10 @@
 package com.bnym.pr.dto;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class UserDto {
+public class UserDto implements Serializable{
+	private static final long serialVersionUID = 7090054550805424820L;
 	private String firstName;
 	private String lastName;
 	private String fullName;

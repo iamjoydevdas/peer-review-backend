@@ -17,4 +17,5 @@ public interface IPeerReviewBo{
 	public Integer update(UserDto user, Integer userId) throws PeerReviewException, PeerReviewDatabaseException;
 	public Integer delete(Integer userId) throws PeerReviewException, PeerReviewDatabaseException;
 	public List<Statics> statics() throws PeerReviewBusinessException, PeerReviewException;
+	public List<UserDto> viewAll(Integer loggedInUserId) throws PeerReviewDatabaseException, PeerReviewException;
 }

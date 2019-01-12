@@ -16,4 +16,5 @@ public interface IPeerReviewDao {
 	public Integer update(UserDto user, Integer userId) throws PeerReviewDatabaseException, PeerReviewException;
 	public Integer delete(Integer userId) throws PeerReviewDatabaseException, PeerReviewException;
 	public List<Statics> statics();
+	public List<UserDto> viewAll(Integer loggedInUserId) throws PeerReviewDatabaseException, PeerReviewException;
 }

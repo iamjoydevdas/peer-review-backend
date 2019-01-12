@@ -40,6 +40,26 @@ CREATE TABLE PEERS (
 
 ALTER TABLE PEERS AUTO_INCREMENT = 1;
 
+CREATE TABLE RATINGS(
+   RATE_ID INT AUTO_INCREMENT PRIMARY KEY,
+   RATED_BY int,
+   RATED_TO int,
+   CONSTRAINT PK_RATE_ID PRIMARY KEY (RATE_ID)
+);
+
+CREATE TABLE SKILLS(
+   SKILL_ID INT AUTO_INCREMENT PRIMARY KEY,
+   SKILL_NAME varchar(45)
+);
+
+CREATE TABLE rating_scores( 
+fk_rate_id int,
+fk_skill_id int,
+rating_score int,
+comment varchar(45)
+foreign key(fk_rate_id) references ratings(rate_id),
+foreign key(fk_skill_id) references skills(skill_id)
+);
 
 
 INSERT INTO DESIGNATION(DESIGNATION_ID, DESIGNATION_NAME) VALUES(1, 'Programmer Analyst');

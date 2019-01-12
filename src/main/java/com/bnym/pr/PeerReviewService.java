@@ -142,10 +142,21 @@ public class PeerReviewService {
 	
 	@GET
 	@Path("/statics")
-	public Response statics() throws PeerReviewBusinessException, PeerReviewException {
+	public Response statics(@HeaderParam("token") String token) throws PeerReviewBusinessException, PeerReviewException {
 		PeerReviewResponse response = new PeerReviewResponse();
 		response.setSuccess(true);
 		response.setDataList(service.statics());
+		return Response.status(200).entity(response).build();
+	}
+	
+	@GET
+	@Path("/peer/view/all")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response getAllUsersData(@HeaderParam("token") String token) throws PeerReviewException, PeerReviewDatabaseException {
+		Integer loggedInUser = service.getSessionUserId(token);
+		PeerReviewResponse response = new PeerReviewResponse();
+		response.setSuccess(true);
+		response.setDataList(service.viewAll(loggedInUser));
 		return Response.status(200).entity(response).build();
 	}
 }
