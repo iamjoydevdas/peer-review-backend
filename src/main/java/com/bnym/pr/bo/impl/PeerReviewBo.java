@@ -1,12 +1,17 @@
 package com.bnym.pr.bo.impl;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bnym.pr.bo.IPeerReviewBo;
 import com.bnym.pr.dao.IPeerReviewDao;
+import com.bnym.pr.dto.Comments;
 import com.bnym.pr.dto.LoginDto;
+import com.bnym.pr.dto.Managerview;
+import com.bnym.pr.dto.RatingScores;
+import com.bnym.pr.dto.Skills;
 import com.bnym.pr.dto.Statics;
 import com.bnym.pr.dto.UserDto;
 import com.bnym.pr.handler.PeerReviewBusinessException;
@@ -33,7 +38,7 @@ public class PeerReviewBo implements IPeerReviewBo {
 	}
 
 	@Override
-	public boolean login(LoginDto login) throws PeerReviewDatabaseException, PeerReviewException {
+	public boolean login(LoginDto login) {
 		return dao.login(login);
 	}
 
@@ -92,8 +97,58 @@ public class PeerReviewBo implements IPeerReviewBo {
 	}
 
 	@Override
-	public List<UserDto> viewAll(Integer loggedInUserId) throws PeerReviewDatabaseException, PeerReviewException {
-		// TODO Auto-generated method stub
-		return dao.viewAll(loggedInUserId);
+	public List<UserDto> viewDetails(Integer userId) throws PeerReviewBusinessException, PeerReviewException {
+		List<UserDto> viewDetails = dao.viewDetails(userId);
+		if(viewDetails == null) {
+			throw new PeerReviewBusinessException(500, "Oops!! No  Data Found.");
+		}
+		return viewDetails;
+	}
+
+	@Override
+	public Integer changePassword(LoginDto user, Integer userId) throws PeerReviewDatabaseException, PeerReviewException {
+		return dao.changePassword(user, userId);
+	}
+
+	@Override
+	public Integer resetPassword(LoginDto user, Integer userId) throws PeerReviewDatabaseException, PeerReviewException {
+	return dao.resetPassword(user, userId);
+	}
+
+	@Override
+	public Integer ratePeer(Integer fromPeerId, RatingScores rated) throws PeerReviewDatabaseException, PeerReviewException {
+		return dao.ratePeer(fromPeerId, rated);
+	}
+
+	@Override
+	public Integer addSkills(Skills skills) throws SQLException, PeerReviewDatabaseException, PeerReviewException {
+		return dao.addSkills(skills);
+	}
+
+	@Override
+	public List<Managerview> dataBySkill(Integer skills) throws PeerReviewBusinessException, PeerReviewException {
+		List<Managerview> view = dao.dataBySkill(skills);
+		if(view == null) {
+			throw new PeerReviewBusinessException(500, "Oops!! No Data Found.");
+		}
+		return dao.dataBySkill(skills);
+	}
+
+	@Override
+	public List<Managerview> dataByDesignation(Integer designation) throws PeerReviewBusinessException, PeerReviewException {
+		List<Managerview> view = dao.dataByDesignation(designation);
+		if(view == null) {
+			throw new PeerReviewBusinessException(500, "Oops!! No Data Found.");
+		}
+		return dao.dataByDesignation(designation);
+	}
+
+	@Override
+	public List<Comments> viewComments() throws PeerReviewBusinessException, PeerReviewException {
+		List<Comments> view = dao.viewComments();
+		if(view == null) {
+			throw new PeerReviewBusinessException(500, "Oops!! No Data Found.");
+		}
+		return dao.viewComments();
 	}
 }

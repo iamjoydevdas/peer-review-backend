@@ -38,5 +38,6 @@ public enum Designation {
     public static Designation get(int designationValue) { 
          return lookup.get(designationValue); 
     }
+    
 }
 

@@ -1,10 +1,8 @@
 package com.bnym.pr.dto;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class UserDto implements Serializable{
-	private static final long serialVersionUID = 7090054550805424820L;
+public class UserDto {
 	private String firstName;
 	private String lastName;
 	private String fullName;
@@ -15,7 +13,7 @@ public class UserDto implements Serializable{
 	private Timestamp createdTime;
 	private String updatedBy;
 	private Timestamp updatedTime;
-	
+
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -77,6 +75,7 @@ public class UserDto implements Serializable{
 		this.userId = userId;
 	}
 	
+
 	@Override
 	public String toString() {
 		return "UserDto [firstName=" + firstName + ", lastName=" + lastName + ", fullName=" + fullName + ", userId="
